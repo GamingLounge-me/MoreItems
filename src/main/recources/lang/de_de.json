@@ -1,0 +1,4 @@
+{
+    "inv.full": "Das Inventar des Spielers ist voll.",
+    "command.give.head.usage": "Wen nicht von einem Spieler ausgeführt musst du, \"/mi give head <player_head> <give_player>\" benutzen!"
+}

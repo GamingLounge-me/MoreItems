@@ -44,6 +44,7 @@ dependencies {
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
 
     implementation(files('build/libs/item-builder-1.0.0.jar'))
+    implementation(files('build/libs/config-api-1.1.0.jar'))
 }
 
 def targetJavaVersion = 21

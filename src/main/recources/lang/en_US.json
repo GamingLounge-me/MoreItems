@@ -1,0 +1,4 @@
+{
+    "inv.full": "The inventory of the player is full.",
+    "command.give.head.usage": "if not executed by a player you need to give /mi give head <player_head> <give_player>"
+}
