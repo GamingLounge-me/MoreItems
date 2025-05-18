@@ -1,0 +1,18 @@
+name: MoreItems
+version: "${version}"
+main: me.gaminglounge.moreitems.MoreItems
+description: 
+api-version: "1.21.4"
+authors:
+  - "Jon1Games"
+loader: me.gaminglounge.moreitems.MoreItemsLoader
+dependencies:
+  server:
+    ItemBuilder:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    ConfigAPI:
+      load: BEFORE
+      required: true
+      join-classpath: true
