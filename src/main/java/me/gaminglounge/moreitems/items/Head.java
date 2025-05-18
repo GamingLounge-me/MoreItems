@@ -23,7 +23,7 @@ public class Head {
                 Player head = (Player) args.get("player_head");
                 Player give = (Player) args.get("give_player");
 
-                if (!(sender instanceof PlayerCommandExecutor p)) {
+                if (!(sender instanceof Player p)) {
                     if (head == null || give == null) {
                         Command.msg(sender, "command.give.head.usage");
                         return;
@@ -38,7 +38,7 @@ public class Head {
                 }
                 
                 Inventory inv = give.getInventory();
-                if (inv.firstEmpty() > 0) {
+                if (inv.firstEmpty() > -1) {
                     inv.addItem(new ItemBuilder(head.getUniqueId()).build());
                 } else {
                     Command.msg(sender, "inv.full");
