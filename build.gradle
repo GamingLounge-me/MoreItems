@@ -33,10 +33,17 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "CodeMC"
+        url = uri("https://repo.codemc.io/repository/maven-public/")
+    }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
+
+    implementation(files('build/libs/item-builder-1.0.0.jar'))
 }
 
 def targetJavaVersion = 21
