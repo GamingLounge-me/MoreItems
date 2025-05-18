@@ -1,64 +1,55 @@
 package me.gaminglounge.moreitems;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.executors.PlayerCommandExecutor;
-import me.gaminglounge.itembuilder.ItemBuilder;
+import me.gaminglounge.configapi.Language;
+import me.gaminglounge.moreitems.items.Head;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class Command {
     MoreItems mi = MoreItems.INSTACE;
+    MiniMessage mm = MiniMessage.miniMessage();
+    FileConfiguration conf = mi.getConfig();
 
     public Command() {
-        new CommandAPICommand("items")
+        CommandAPICommand command = new CommandAPICommand("items")
             .withPermission("MoreItems.command")
-            .withAliases("MoreItems:items", "MoreItems:mi", "mi")
-            .executes((sender, args) -> {
-                // command list
-                // sender.sendMessage("");
-            })
-            .withSubcommand(
-                new CommandAPICommand("give")
-                    .withPermission("MoreItems.command.give")
-                    .executes((sender, args) -> {
-                        // list of items / subcommands
-                        // gui with all item to pick?
-                    })
-                    .withSubcommand(
-                        new CommandAPICommand("head")
-                            .withPermission("MoreItems.command.give.head")
-                            .withOptionalArguments(new PlayerArgument("player_head"), new PlayerArgument("give_player"))
-                            .executes((sender, args) -> {
-                                Player head = (Player) args.get("player_head");
-                                Player give = (Player) args.get("give_player");
+            .withAliases("MoreItems:items", "MoreItems:mi", "mi");
 
-                                if (!(sender instanceof PlayerCommandExecutor p)) {
-                                    if (head == null || give == null) {
-                                        sender.sendMessage("if not executed by a player you need to give /mi give head <player_head> <give_player>");
-                                        return;
-                                    }
-                                } else {
-                                    if (head == null) {
-                                        head = (Player) p;
-                                    }
-                                    if (give == null) {
-                                        give = (Player) p;
-                                    }
-                                }
-                                
-                                Inventory inv = give.getInventory();
-                                if (inv.firstEmpty() > 0) {
-                                    inv.addItem(new ItemBuilder(head.getUniqueId()).build());
-                                } else {
-                                    sender.sendMessage("inv of player is full.");
-                                }
-                            })
-                    )
-            )
-        .register();
+        CommandAPICommand give = new CommandAPICommand("give")
+            .withPermission("MoreItems.command.give");
+
+        // set subcommands of give command
+        List<CommandAPICommand> gsc = new ArrayList<>();
+        if (conf.getBoolean("command.give.head")) gsc.add(new Head().command());
+        
+        give.setSubcommands(gsc);
+
+        // set subcommands of command command
+        List<CommandAPICommand> csc = new ArrayList<>();
+        csc.add(give);
+
+        command.setSubcommands(csc);
+
+        // register command
+        command.register();
+    }
+
+    public static void msg(CommandSender sender, String key) {
+        MoreItems mi = MoreItems.INSTACE;
+        MiniMessage mm = MiniMessage.miniMessage();
+        if (sender instanceof PlayerCommandExecutor pcx) {
+            Player p = (Player) pcx;
+            p.sendMessage(mm.deserialize(Language.getValue(mi, p, key)));
+        } else {
+            sender.sendMessage(mm.deserialize(Language.getValue(mi, "en_US", key)));
+        }
     }
 
 }
