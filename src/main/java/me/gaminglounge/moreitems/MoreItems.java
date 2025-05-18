@@ -11,12 +11,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import me.gaminglounge.configapi.LoadConfig;
-import me.gaminglounge.moreitems.listener.DiscoverRecipe;
+import me.gaminglounge.moreitems.items.Exmaple;
 
 public class MoreItems extends JavaPlugin {
 
     public static MoreItems INSTACE;
-    private DiscoverRecipe discoverRecipe;
+    public static Crafting CRAFTING;
 
     @Override
     public void onLoad() {
@@ -30,12 +30,17 @@ public class MoreItems extends JavaPlugin {
 
         if (!CommandAPI.isLoaded())
             CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
+        new Command();
+
+        CRAFTING = new Crafting();
+        CRAFTING.init();
     }   
 
     @Override
     public void onEnable() {
-        INSTACE.discoverRecipe = new DiscoverRecipe();
-        INSTACE.discoverRecipe.init();
+        // add recepies here
+        new Exmaple();
+
         this.listener();
 
         CommandAPI.onEnable();
@@ -49,7 +54,7 @@ public class MoreItems extends JavaPlugin {
     public void listener() {
         PluginManager pm = Bukkit.getPluginManager();
 
-        pm.registerEvents( INSTACE.discoverRecipe, this);
+        pm.registerEvents( CRAFTING, this);
     }
 
 
