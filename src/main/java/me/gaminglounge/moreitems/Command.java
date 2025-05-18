@@ -44,11 +44,13 @@ public class Command {
     public static void msg(CommandSender sender, String key) {
         MoreItems mi = MoreItems.INSTACE;
         MiniMessage mm = MiniMessage.miniMessage();
-        if (sender instanceof PlayerCommandExecutor pcx) {
+        if (sender instanceof Player pcx) {
             Player p = (Player) pcx;
             p.sendMessage(mm.deserialize(Language.getValue(mi, p, key)));
         } else {
-            sender.sendMessage(mm.deserialize(Language.getValue(mi, "en_US", key)));
+            String msg = Language.getValue(mi, "en_US", key);
+            // remove "<...>"(minimessage) tags
+            sender.sendMessage(msg);
         }
     }
 
