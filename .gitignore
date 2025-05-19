@@ -31,6 +31,10 @@ gradle.properties
 
 # Ignore Gradle build output directory
 build
+
+# Allow gradlew-wrapper
+!gradle/wrapper/*.jar
+
 # VSCode 
 .vscode
 
