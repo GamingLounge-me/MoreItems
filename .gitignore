@@ -30,7 +30,15 @@ replay_pid*
 gradle.properties
 
 # Ignore Gradle build output directory
-build
+build/classes
+build/docs
+build/generated
+build/libs/*.jar
+!build/libs/item-builder-1.0.0.jar
+!build/libs/config-api-1.1.0.jar
+build/reports
+build/resources
+build/tmp
 
 # Allow gradlew-wrapper
 !gradle/wrapper/*.jar
